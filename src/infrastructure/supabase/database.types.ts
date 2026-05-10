@@ -1,6 +1,4 @@
-// Generado manualmente desde el schema de Supabase.
-// Cuando conectes el proyecto real: npx supabase gen types typescript --local > src/infrastructure/supabase/database.types.ts
-
+// Generado manualmente. Para regenerar: npx supabase gen types typescript --local
 export type StickerType = 'logo' | 'player' | 'team_photo' | 'special'
 export type Rarity      = 'common' | 'foil'
 export type Section     = 'teams' | 'intro' | 'museum'
@@ -22,6 +20,29 @@ export interface Database {
         Insert: Omit<Database['public']['Tables']['albums']['Row'], 'id' | 'created_at'>
           & { id?: string; created_at?: string }
         Update: Partial<Database['public']['Tables']['albums']['Insert']>
+        Relationships: []
+      }
+      sections: {
+        Row: {
+          id:            string
+          album_id:      string
+          key:           string
+          label:         string
+          icon:          string | null
+          display_order: number
+        }
+        Insert: Omit<Database['public']['Tables']['sections']['Row'], 'id'>
+          & { id?: string }
+        Update: Partial<Database['public']['Tables']['sections']['Insert']>
+        Relationships: [
+          {
+            foreignKeyName: 'sections_album_id_fkey'
+            columns: ['album_id']
+            isOneToOne: false
+            referencedRelation: 'albums'
+            referencedColumns: ['id']
+          }
+        ]
       }
       stickers: {
         Row: {
@@ -36,24 +57,20 @@ export interface Database {
           sticker_type:     StickerType
           rarity:           Rarity
           section:          Section
-          flag_code:       string | null
+          flag_code:        string | null
         }
         Insert: Omit<Database['public']['Tables']['stickers']['Row'], 'id'>
           & { id?: string }
         Update: Partial<Database['public']['Tables']['stickers']['Insert']>
-      }
-      sections: {
-        Row: {
-          id:            string
-          album_id:      string
-          key:           string
-          label:         string
-          icon:          string | null
-          display_order: number
-        }
-        Insert: Omit<Database['public']['Tables']['sections']['Row'], 'id'>
-          & { id?: string }
-        Update: Partial<Database['public']['Tables']['sections']['Insert']>
+        Relationships: [
+          {
+            foreignKeyName: 'stickers_album_id_fkey'
+            columns: ['album_id']
+            isOneToOne: false
+            referencedRelation: 'albums'
+            referencedColumns: ['id']
+          }
+        ]
       }
       profiles: {
         Row: {
@@ -63,9 +80,15 @@ export interface Database {
           is_public:  boolean
           created_at: string
         }
-        Insert: Omit<Database['public']['Tables']['profiles']['Row'], 'created_at'>
-          & { created_at?: string }
+        Insert: {
+          id:          string
+          username:    string
+          avatar_url?: string | null
+          is_public?:  boolean
+          created_at?: string
+        }
         Update: Partial<Database['public']['Tables']['profiles']['Insert']>
+        Relationships: []
       }
       user_stickers: {
         Row: {
@@ -77,7 +100,27 @@ export interface Database {
         Insert: Omit<Database['public']['Tables']['user_stickers']['Row'], 'updated_at'>
           & { updated_at?: string }
         Update: Partial<Database['public']['Tables']['user_stickers']['Insert']>
+        Relationships: [
+          {
+            foreignKeyName: 'user_stickers_user_id_fkey'
+            columns: ['user_id']
+            isOneToOne: false
+            referencedRelation: 'profiles'
+            referencedColumns: ['id']
+          },
+          {
+            foreignKeyName: 'user_stickers_sticker_id_fkey'
+            columns: ['sticker_id']
+            isOneToOne: false
+            referencedRelation: 'stickers'
+            referencedColumns: ['id']
+          }
+        ]
       }
     }
+    Views:          Record<never, never>
+    Functions:      Record<never, never>
+    Enums:          Record<never, never>
+    CompositeTypes: Record<never, never>
   }
 }
