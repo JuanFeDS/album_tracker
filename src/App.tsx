@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
+import { HashRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { useAuthStore }       from './presentation/stores/authStore'
 import OnboardingPage         from './presentation/pages/OnboardingPage'
 import DashboardPage          from './presentation/pages/DashboardPage'
@@ -12,7 +12,7 @@ function ProtectedRoute({ children }: { children: React.ReactNode }) {
 
 export default function App() {
   return (
-    <BrowserRouter>
+    <HashRouter>
       <Routes>
         <Route path="/"            element={<OnboardingPage />} />
         <Route path="/u/:username" element={<PublicProfilePage />} />
@@ -20,6 +20,6 @@ export default function App() {
         <Route path="/collection"  element={<ProtectedRoute><CollectionPage /></ProtectedRoute>} />
         <Route path="*"            element={<Navigate to="/" replace />} />
       </Routes>
-    </BrowserRouter>
+    </HashRouter>
   )
 }
