@@ -1,0 +1,25 @@
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
+import { useAuthStore }       from './presentation/stores/authStore'
+import OnboardingPage         from './presentation/pages/OnboardingPage'
+import DashboardPage          from './presentation/pages/DashboardPage'
+import CollectionPage         from './presentation/pages/CollectionPage'
+import PublicProfilePage      from './presentation/pages/PublicProfilePage'
+
+function ProtectedRoute({ children }: { children: React.ReactNode }) {
+  const userId = useAuthStore(s => s.userId)
+  return userId ? <>{children}</> : <Navigate to="/" replace />
+}
+
+export default function App() {
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/"            element={<OnboardingPage />} />
+        <Route path="/u/:username" element={<PublicProfilePage />} />
+        <Route path="/dashboard"   element={<ProtectedRoute><DashboardPage /></ProtectedRoute>} />
+        <Route path="/collection"  element={<ProtectedRoute><CollectionPage /></ProtectedRoute>} />
+        <Route path="*"            element={<Navigate to="/" replace />} />
+      </Routes>
+    </BrowserRouter>
+  )
+}
