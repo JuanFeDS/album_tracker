@@ -9,6 +9,7 @@ import { GetCollectionUseCase }      from '@application/use-cases/collection/Get
 import { AddStickerUseCase }         from '@application/use-cases/collection/AddStickerUseCase'
 import { RemoveStickerUseCase }      from '@application/use-cases/collection/RemoveStickerUseCase'
 import { GetMissingStickersUseCase } from '@application/use-cases/collection/GetMissingStickersUseCase'
+import { MarkMissingUseCase }        from '@application/use-cases/collection/MarkMissingUseCase'
 
 const stickerRepo    = new SupabaseStickerRepo(supabase)
 const collectionRepo = new SupabaseCollectionRepo(supabase)
@@ -21,3 +22,4 @@ export const getCollectionUseCase      = new GetCollectionUseCase(collectionRepo
 export const addStickerUseCase         = new AddStickerUseCase(collectionRepo, stickerRepo)
 export const removeStickerUseCase      = new RemoveStickerUseCase(collectionRepo, stickerRepo)
 export const getMissingStickersUseCase = new GetMissingStickersUseCase(collectionRepo, stickerRepo)
+export const markMissingUseCase        = new MarkMissingUseCase(collectionRepo)

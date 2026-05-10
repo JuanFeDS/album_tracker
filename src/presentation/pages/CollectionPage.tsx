@@ -2,6 +2,7 @@ import { useEffect, useState, useMemo, type ReactNode } from 'react'
 import { Link }                          from 'react-router-dom'
 import { useCollection }                 from '../hooks/useCollection'
 import { StickerCard }                   from '../components/stickers/StickerCard'
+import { PageScanner }                   from '../components/collection/PageScanner'
 import { Spinner }                       from '../components/ui/Spinner'
 import type { StickerDTO }               from '@application/dtos/StickerDTO'
 import type { SectionDTO }               from '@application/dtos/SectionDTO'
@@ -91,8 +92,9 @@ function StickerGrid({ stickers, onAdd, onRemove }: {
 // ── Page ──────────────────────────────────────────────────────
 
 export default function CollectionPage() {
-  const { collection, isLoading, load, addSticker, removeSticker } = useCollection()
-  const [selection, setSelection] = useState<Selection | null>(null)
+  const { collection, isLoading, load, addSticker, removeSticker, syncFromScan } = useCollection()
+  const [selection, setSelection]   = useState<Selection | null>(null)
+  const [showScanner, setShowScanner] = useState(false)
 
   useEffect(() => { load() }, [load])
 
@@ -210,6 +212,23 @@ export default function CollectionPage() {
         </div>
 
       </div>
+
+      {/* FAB escanear */}
+      <button
+        onClick={() => setShowScanner(true)}
+        className="fixed bottom-6 right-6 flex items-center gap-2 rounded-full bg-emerald-500 px-5 py-3 font-semibold text-white shadow-lg hover:bg-emerald-400 transition-colors"
+      >
+        <span>📷</span>
+        Escanear página
+      </button>
+
+      {showScanner && (
+        <PageScanner
+          stickers={collection.stickers}
+          onSync={syncFromScan}
+          onClose={() => setShowScanner(false)}
+        />
+      )}
     </div>
   )
 }

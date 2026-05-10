@@ -5,6 +5,7 @@ import {
   getCollectionUseCase,
   addStickerUseCase,
   removeStickerUseCase,
+  markMissingUseCase,
 } from '@infrastructure/supabase/container'
 import { DEFAULT_ALBUM_ID } from '@/lib/constants'
 
@@ -55,5 +56,20 @@ export function useCollection(albumId = DEFAULT_ALBUM_ID) {
     }
   }, [userId, albumId, collection, updateSticker, setError])
 
-  return { collection, isLoading, error, load, addSticker, removeSticker }
+  const syncFromScan = useCallback(async (stickerIds: string[]) => {
+    if (!userId || stickerIds.length === 0) return
+    // Optimistic: marca todos como faltantes en el store
+    stickerIds.forEach(id => {
+      const s = collection?.stickers.find(st => st.id === id)
+      if (s) updateSticker({ ...s, quantity: 0, isMissing: true, isDuplicate: false })
+    })
+    try {
+      await markMissingUseCase.execute({ userId, stickerIds })
+    } catch (e) {
+      setError(e instanceof Error ? e.message : 'Error al sincronizar')
+      load() // rollback con recarga real
+    }
+  }, [userId, collection, updateSticker, setError, load])
+
+  return { collection, isLoading, error, load, addSticker, removeSticker, syncFromScan }
 }
