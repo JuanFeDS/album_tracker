@@ -295,7 +295,7 @@ export default function CollectionPage() {
                   section.key === 'versus'  ? bySection.versus  :
                   []
                 }
-                onClick={() => setSelection({ type: section.key as Selection['type'] })}
+                onClick={() => setSelection({ type: section.key as 'intro' | 'museum' | 'versus' })}
               />
             ))}
         </div>
