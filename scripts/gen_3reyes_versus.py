@@ -73,7 +73,7 @@ for code_a, name_a, flag_a, code_b, name_b, flag_b in MATCHUPS:
             uid   = str(uuid.uuid4())
             rows.append(
                 f"  ('{uid}', '{ALBUM_ID}', '{code}', {db_num}, "
-                f"{q(team_name)}, {q(team_code)}, NULL, "
+                f"{q(team_name)}, {q(team_code)}, {q(team_name)}, "
                 f"'{stype}', '{rarity}', 'versus', {q(flag_code)})"
             )
             e_num  += 1
