@@ -19,7 +19,7 @@ export function StickerCard({ sticker, onAdd, onRemove }: Props) {
       >
         <span className="text-[11px] font-bold tracking-wide text-[#2a4f72]">{code}</span>
         {playerName && (
-          <span className="w-full truncate text-center text-[9px] text-[#1e3d5c] leading-tight">
+          <span className="w-full truncate text-center text-[9px] text-[#3a6a9a] leading-tight">
             {playerName}
           </span>
         )}
