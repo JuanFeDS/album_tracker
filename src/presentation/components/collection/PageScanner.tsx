@@ -30,23 +30,14 @@ export function PageScanner({ stickers, onSync, onClose }: Props) {
   const handleScan = async () => {
     if (phase.name !== 'preview') return
     const { file } = phase
-
     setPhase({ name: 'scanning', progress: { pct: 0, status: 'Iniciando…' } })
-
     try {
       const codes = await extractStickerCodes(file, progress =>
         setPhase({ name: 'scanning', progress }),
       )
-
-      // Los códigos visibles = slots vacíos = faltantes
-      const matched = codes.flatMap(c => {
-        const s = codeMap.get(c)
-        return s ? [s] : []
-      })
-
-      const toMark        = matched.filter(s => s.quantity > 0)
+      const matched        = codes.flatMap(c => { const s = codeMap.get(c); return s ? [s] : [] })
+      const toMark         = matched.filter(s => s.quantity > 0)
       const alreadyMissing = matched.filter(s => s.quantity === 0)
-
       setPhase({ name: 'results', toMark, alreadyMissing })
     } catch (err) {
       alert(`Error al escanear: ${err instanceof Error ? err.message : 'desconocido'}`)
@@ -63,11 +54,16 @@ export function PageScanner({ stickers, onSync, onClose }: Props) {
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex flex-col bg-gray-950">
+    <div className="fixed inset-0 z-50 flex flex-col bg-[#060e1f]">
 
       {/* Header */}
-      <div className="flex items-center gap-3 border-b border-gray-800 px-4 py-4">
-        <button onClick={onClose} className="text-gray-400 hover:text-white text-lg">←</button>
+      <div className="flex items-center gap-3 border-b border-[#1a3050] bg-[#0c1829] px-4 py-4">
+        <button
+          onClick={onClose}
+          className="flex h-9 w-9 items-center justify-center rounded-xl border border-[#1a3050] bg-[#060e1f] text-white/60 hover:text-white transition-colors"
+        >
+          ←
+        </button>
         <h2 className="font-bold text-white">Escanear página del álbum</h2>
       </div>
 
@@ -76,12 +72,16 @@ export function PageScanner({ stickers, onSync, onClose }: Props) {
         {/* ── CAPTURE ── */}
         {phase.name === 'capture' && (
           <>
-            <div className="flex flex-col items-center gap-3 text-center">
-              <span className="text-6xl">📷</span>
-              <p className="text-gray-400 text-sm max-w-xs">
-                Toma una foto de una página del álbum. Los slots vacíos (láminas que te faltan)
-                muestran el código impreso — el OCR los detectará automáticamente.
-              </p>
+            <div className="flex flex-col items-center gap-4 text-center">
+              <div className="flex h-20 w-20 items-center justify-center rounded-2xl bg-[#0c1829] border border-[#1a3050]">
+                <span className="text-4xl">📷</span>
+              </div>
+              <div>
+                <p className="font-semibold text-white">Escanear láminas faltantes</p>
+                <p className="mt-1 text-sm text-[#4a6580] max-w-xs">
+                  Fotografía una página del álbum. Los slots vacíos muestran el código — el OCR los detectará.
+                </p>
+              </div>
             </div>
             <input
               ref={inputRef}
@@ -91,15 +91,15 @@ export function PageScanner({ stickers, onSync, onClose }: Props) {
               className="hidden"
               onChange={e => { const f = e.target.files?.[0]; if (f) handleFile(f) }}
             />
-            <div className="flex gap-3">
+            <div className="flex w-full max-w-xs flex-col gap-3">
               <button
                 onClick={() => inputRef.current?.click()}
-                className="rounded-xl bg-emerald-500 px-6 py-3 font-semibold text-white hover:bg-emerald-400 transition-colors"
+                className="rounded-2xl bg-[#e31837] px-6 py-4 font-semibold text-white shadow-[0_4px_16px_rgba(227,24,55,.35)] hover:bg-[#cc1530] active:scale-95 transition-all"
               >
-                Tomar foto
+                📷  Tomar foto
               </button>
-              <label className="cursor-pointer rounded-xl border border-gray-700 px-6 py-3 font-semibold text-gray-300 hover:border-gray-500 transition-colors">
-                Subir imagen
+              <label className="cursor-pointer rounded-2xl border border-[#1a3050] bg-[#0c1829] px-6 py-4 text-center font-medium text-white/60 hover:border-[#1e90ff]/40 hover:text-white transition-colors">
+                Subir desde galería
                 <input
                   type="file"
                   accept="image/*"
@@ -117,18 +117,18 @@ export function PageScanner({ stickers, onSync, onClose }: Props) {
             <img
               src={phase.previewUrl}
               alt="Vista previa"
-              className="max-h-72 w-full rounded-xl object-contain border border-gray-800"
+              className="max-h-72 w-full rounded-2xl object-contain border border-[#1a3050]"
             />
-            <div className="flex gap-3">
+            <div className="flex w-full max-w-xs flex-col gap-3">
               <button
                 onClick={handleScan}
-                className="rounded-xl bg-emerald-500 px-6 py-3 font-semibold text-white hover:bg-emerald-400 transition-colors"
+                className="rounded-2xl bg-[#e31837] px-6 py-4 font-semibold text-white shadow-[0_4px_16px_rgba(227,24,55,.35)] hover:bg-[#cc1530] active:scale-95 transition-all"
               >
-                Escanear
+                🔍  Escanear
               </button>
               <button
                 onClick={() => { URL.revokeObjectURL(phase.previewUrl); setPhase({ name: 'capture' }) }}
-                className="rounded-xl border border-gray-700 px-6 py-3 text-gray-300 hover:border-gray-500 transition-colors"
+                className="rounded-2xl border border-[#1a3050] bg-[#0c1829] px-6 py-4 text-white/60 hover:text-white transition-colors"
               >
                 Cambiar foto
               </button>
@@ -138,69 +138,72 @@ export function PageScanner({ stickers, onSync, onClose }: Props) {
 
         {/* ── SCANNING ── */}
         {phase.name === 'scanning' && (
-          <div className="flex w-full max-w-sm flex-col items-center gap-4">
-            <span className="text-4xl animate-pulse">🔍</span>
-            <p className="text-sm text-gray-400">{phase.progress.status}</p>
-            <div className="h-2 w-full rounded-full bg-gray-800">
+          <div className="flex w-full max-w-sm flex-col items-center gap-5">
+            <span className="text-5xl animate-pulse">🔍</span>
+            <div className="w-full text-center">
+              <p className="text-sm font-medium text-white mb-1">{phase.progress.status}</p>
+              <p className="text-xs text-[#4a6580]">{phase.progress.pct}%</p>
+            </div>
+            <div className="h-2 w-full overflow-hidden rounded-full bg-[#0c1829]">
               <div
-                className="h-2 rounded-full bg-emerald-500 transition-all duration-300"
+                className="h-full rounded-full bg-[#1e90ff] transition-all duration-300"
                 style={{ width: `${phase.progress.pct}%` }}
               />
             </div>
-            <p className="text-xs text-gray-600">{phase.progress.pct}%</p>
           </div>
         )}
 
         {/* ── RESULTS ── */}
         {phase.name === 'results' && (
           <div className="flex w-full max-w-sm flex-col gap-4">
-            <div className="rounded-xl border border-gray-800 bg-gray-900 p-4 text-center">
-              <p className="text-3xl font-bold text-white">
+            {/* Total detectadas */}
+            <div className="rounded-2xl border border-[#1a3050] bg-[#0c1829] p-5 text-center">
+              <p className="text-4xl font-bold text-white">
                 {phase.toMark.length + phase.alreadyMissing.length}
               </p>
-              <p className="text-sm text-gray-400">láminas faltantes detectadas</p>
+              <p className="mt-1 text-sm text-[#4a6580]">láminas faltantes detectadas</p>
             </div>
 
             {phase.toMark.length > 0 && (
-              <div className="rounded-xl border border-yellow-500/30 bg-yellow-900/20 p-4">
-                <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-yellow-400">
-                  {phase.toMark.length} marcadas como tenidas → se marcarán faltantes
+              <div className="rounded-2xl border border-[#f5a623]/30 bg-[#1a1400] p-4">
+                <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-[#f5a623]">
+                  {phase.toMark.length} se marcarán como faltantes
                 </p>
-                <p className="text-xs text-gray-400 leading-relaxed">
+                <p className="text-xs text-white/40 leading-relaxed">
                   {phase.toMark.map(s => s.code).join(' · ')}
                 </p>
               </div>
             )}
 
             {phase.alreadyMissing.length > 0 && (
-              <div className="rounded-xl border border-gray-800 bg-gray-900/50 p-4">
-                <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-gray-500">
-                  {phase.alreadyMissing.length} ya estaban marcadas faltantes
+              <div className="rounded-2xl border border-[#1a3050] bg-[#0c1829] p-4">
+                <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-[#4a6580]">
+                  {phase.alreadyMissing.length} ya estaban marcadas
                 </p>
-                <p className="text-xs text-gray-600 leading-relaxed">
+                <p className="text-xs text-[#2a4f72] leading-relaxed">
                   {phase.alreadyMissing.map(s => s.code).join(' · ')}
                 </p>
               </div>
             )}
 
             {phase.toMark.length === 0 && phase.alreadyMissing.length === 0 && (
-              <p className="text-center text-sm text-gray-500">
-                No se detectaron códigos válidos. Intenta con mejor iluminación o ángulo más recto.
+              <p className="text-center text-sm text-[#4a6580]">
+                No se detectaron códigos. Intenta con mejor iluminación o ángulo más recto.
               </p>
             )}
 
-            <div className="flex gap-3 pt-2">
+            <div className="flex gap-3 pt-1">
               {phase.toMark.length > 0 && (
                 <button
                   onClick={handleSync}
-                  className="flex-1 rounded-xl bg-emerald-500 py-3 font-semibold text-white hover:bg-emerald-400 transition-colors"
+                  className="flex-1 rounded-2xl bg-[#e31837] py-4 font-semibold text-white shadow-[0_4px_16px_rgba(227,24,55,.3)] hover:bg-[#cc1530] active:scale-95 transition-all"
                 >
-                  Sincronizar {phase.toMark.length} láminas
+                  Sincronizar {phase.toMark.length}
                 </button>
               )}
               <button
                 onClick={() => setPhase({ name: 'capture' })}
-                className="rounded-xl border border-gray-700 px-4 py-3 text-gray-300 hover:border-gray-500 transition-colors"
+                className="rounded-2xl border border-[#1a3050] bg-[#0c1829] px-5 py-4 text-white/60 hover:text-white transition-colors"
               >
                 Nueva foto
               </button>
@@ -210,29 +213,36 @@ export function PageScanner({ stickers, onSync, onClose }: Props) {
 
         {/* ── SYNCING ── */}
         {phase.name === 'syncing' && (
-          <div className="flex flex-col items-center gap-3">
-            <span className="text-4xl animate-spin">⚙️</span>
-            <p className="text-sm text-gray-400">Actualizando colección…</p>
+          <div className="flex flex-col items-center gap-4">
+            <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-[#0c1829] border border-[#1a3050]">
+              <span className="text-3xl animate-spin">⚙️</span>
+            </div>
+            <p className="text-sm text-[#4a6580]">Actualizando colección…</p>
           </div>
         )}
 
         {/* ── DONE ── */}
         {phase.name === 'done' && (
-          <div className="flex flex-col items-center gap-4 text-center">
-            <span className="text-5xl">✅</span>
-            <p className="font-semibold text-white">¡Colección actualizada!</p>
-            <div className="flex gap-3">
-              <button
-                onClick={() => setPhase({ name: 'capture' })}
-                className="rounded-xl border border-gray-700 px-5 py-2.5 text-gray-300 hover:border-gray-500 transition-colors"
-              >
-                Escanear otra página
-              </button>
+          <div className="flex flex-col items-center gap-5 text-center">
+            <div className="flex h-20 w-20 items-center justify-center rounded-full bg-[#0c1829] border-2 border-[#1e90ff]/40">
+              <span className="text-4xl">✅</span>
+            </div>
+            <div>
+              <p className="text-lg font-bold text-white">¡Listo!</p>
+              <p className="text-sm text-[#4a6580] mt-1">Colección actualizada</p>
+            </div>
+            <div className="flex w-full max-w-xs flex-col gap-3">
               <button
                 onClick={onClose}
-                className="rounded-xl bg-emerald-500 px-5 py-2.5 font-semibold text-white hover:bg-emerald-400 transition-colors"
+                className="rounded-2xl bg-[#1e90ff] px-6 py-4 font-semibold text-white hover:bg-[#1a7de0] active:scale-95 transition-all"
               >
-                Volver
+                Volver a mi colección
+              </button>
+              <button
+                onClick={() => setPhase({ name: 'capture' })}
+                className="rounded-2xl border border-[#1a3050] bg-[#0c1829] px-6 py-4 text-white/60 hover:text-white transition-colors"
+              >
+                Escanear otra página
               </button>
             </div>
           </div>

@@ -1,1 +1,34 @@
 @import "tailwindcss";
+
+@theme {
+  --color-wc-navy:    #060e1f;
+  --color-wc-surface: #0c1829;
+  --color-wc-card:    #101f35;
+  --color-wc-border:  #1a3050;
+  --color-wc-red:     #e31837;
+  --color-wc-gold:    #f5a623;
+  --color-wc-blue:    #1e90ff;
+  --color-wc-muted:   #4a6580;
+}
+
+body {
+  background-color: var(--color-wc-navy);
+  color: #fff;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Foil shimmer */
+@keyframes shimmer {
+  0%   { background-position: -200% center; }
+  100% { background-position:  200% center; }
+}
+.foil-card {
+  background-image: linear-gradient(
+    105deg,
+    transparent 40%,
+    rgba(245,166,35,.25) 50%,
+    transparent 60%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 3s linear infinite;
+}
