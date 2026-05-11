@@ -12,6 +12,7 @@ import type { SectionDTO }               from '@application/dtos/SectionDTO'
 type Selection =
   | { type: 'intro' }
   | { type: 'museum' }
+  | { type: 'versus' }
   | { type: 'team'; teamCode: string; team: string }
 
 function progress(stickers: StickerDTO[]) {
@@ -152,18 +153,20 @@ export default function CollectionPage() {
   }, [albumId]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const bySection = useMemo(() => {
-    if (!collection) return { intro: [], museum: [], teams: new Map<string, StickerDTO[]>() }
-    const intro:  StickerDTO[] = []
-    const museum: StickerDTO[] = []
-    const teams   = new Map<string, StickerDTO[]>()
+    if (!collection) return { intro: [], museum: [], versus: [], teams: new Map<string, StickerDTO[]>() }
+    const intro:   StickerDTO[] = []
+    const museum:  StickerDTO[] = []
+    const versus:  StickerDTO[] = []
+    const teams    = new Map<string, StickerDTO[]>()
     for (const s of collection.stickers) {
       if (s.section === 'intro')  { intro.push(s);  continue }
       if (s.section === 'museum') { museum.push(s); continue }
+      if (s.section === 'versus') { versus.push(s); continue }
       const key = s.teamCode ?? s.team
       if (!teams.has(key)) teams.set(key, [])
       teams.get(key)!.push(s)
     }
-    return { intro, museum, teams }
+    return { intro, museum, versus, teams }
   }, [collection])
 
   if (isLoading || !collection) {
@@ -190,6 +193,11 @@ export default function CollectionPage() {
       label    = sec?.label ?? 'Estadios'
       icon     = <span className="text-xl">{sec?.icon ?? '🏟️'}</span>
       stickers = bySection.museum
+    } else if (selection.type === 'versus') {
+      const sec = collection.sections.find(s => s.key === 'versus')
+      label    = sec?.label ?? 'Versus'
+      icon     = <span className="text-xl">{sec?.icon ?? '⚔️'}</span>
+      stickers = bySection.versus
     } else {
       const first = bySection.teams.get(selection.teamCode)?.[0]
       label    = selection.team
@@ -281,8 +289,13 @@ export default function CollectionPage() {
               <SpecialCard
                 key={section.key}
                 section={section}
-                stickers={section.key === 'intro' ? bySection.intro : bySection.museum}
-                onClick={() => setSelection({ type: section.key as 'intro' | 'museum' })}
+                stickers={
+                  section.key === 'intro'   ? bySection.intro   :
+                  section.key === 'museum'  ? bySection.museum  :
+                  section.key === 'versus'  ? bySection.versus  :
+                  []
+                }
+                onClick={() => setSelection({ type: section.key as Selection['type'] })}
               />
             ))}
         </div>
