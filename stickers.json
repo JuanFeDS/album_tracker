@@ -1,0 +1,418 @@
+{
+  "album": "3 Reyes del Mundial",
+  "sections": [
+    {
+      "category": "stadiums",
+      "name": "Estadios",
+      "stickers": [16]
+    },
+    {
+      "category": "team",
+      "name": "México",
+      "range": {
+        "start": 17,
+        "end": 32
+      }
+    },
+    {
+      "category": "team",
+      "name": "República Checa",
+      "range": {
+        "start": 33,
+        "end": 48
+      }
+    },
+    {
+      "category": "team",
+      "name": "Corea del Sur",
+      "range": {
+        "start": 49,
+        "end": 55
+      }
+    },
+    {
+      "category": "team",
+      "name": "Sudáfrica",
+      "range": {
+        "start": 56,
+        "end": 62
+      }
+    },
+    {
+      "category": "team",
+      "name": "Canadá",
+      "range": {
+        "start": 63,
+        "end": 78
+      }
+    },
+    {
+      "category": "team",
+      "name": "Bosnia y Herzegovina",
+      "range": {
+        "start": 79,
+        "end": 94
+      }
+    },
+    {
+      "category": "team",
+      "name": "Suiza",
+      "range": {
+        "start": 95,
+        "end": 101
+      }
+    },
+    {
+      "category": "team",
+      "name": "Catar",
+      "range": {
+        "start": 102,
+        "end": 108
+      }
+    },
+    {
+      "category": "team",
+      "name": "Brasil",
+      "range": {
+        "start": 109,
+        "end": 124
+      }
+    },
+    {
+      "category": "team",
+      "name": "Marruecos",
+      "range": {
+        "start": 125,
+        "end": 140
+      }
+    },
+    {
+      "category": "team",
+      "name": "Escocia",
+      "range": {
+        "start": 141,
+        "end": 147
+      }
+    },
+    {
+      "category": "team",
+      "name": "Haití",
+      "range": {
+        "start": 148,
+        "end": 154
+      }
+    },
+    {
+      "category": "team",
+      "name": "EE.UU.",
+      "range": {
+        "start": 155,
+        "end": 170
+      }
+    },
+    {
+      "category": "team",
+      "name": "Paraguay",
+      "range": {
+        "start": 171,
+        "end": 186
+      }
+    },
+    {
+      "category": "team",
+      "name": "Australia",
+      "range": {
+        "start": 187,
+        "end": 193
+      }
+    },
+    {
+      "category": "team",
+      "name": "Turquía",
+      "range": {
+        "start": 194,
+        "end": 200
+      }
+    },
+    {
+      "category": "team",
+      "name": "Alemania",
+      "range": {
+        "start": 201,
+        "end": 216
+      }
+    },
+    {
+      "category": "team",
+      "name": "Ecuador",
+      "range": {
+        "start": 217,
+        "end": 232
+      }
+    },
+    {
+      "category": "team",
+      "name": "Costa de Marfil",
+      "range": {
+        "start": 233,
+        "end": 239
+      }
+    },
+    {
+      "category": "team",
+      "name": "Curazao",
+      "range": {
+        "start": 240,
+        "end": 246
+      }
+    },
+    {
+      "category": "team",
+      "name": "Países Bajos",
+      "range": {
+        "start": 247,
+        "end": 262
+      }
+    },
+    {
+      "category": "unknown",
+      "name": "Sección sin nombre",
+      "range": {
+        "start": 263,
+        "end": 278
+      }
+    },
+    {
+      "category": "team",
+      "name": "Japón",
+      "range": {
+        "start": 279,
+        "end": 285
+      }
+    },
+    {
+      "category": "team",
+      "name": "Túnez",
+      "range": {
+        "start": 286,
+        "end": 292
+      }
+    },
+    {
+      "category": "team",
+      "name": "Bélgica",
+      "range": {
+        "start": 293,
+        "end": 308
+      }
+    },
+    {
+      "category": "team",
+      "name": "Egipto",
+      "range": {
+        "start": 309,
+        "end": 324
+      }
+    },
+    {
+      "category": "team",
+      "name": "Irán",
+      "range": {
+        "start": 325,
+        "end": 331
+      }
+    },
+    {
+      "category": "team",
+      "name": "Nueva Zelanda",
+      "range": {
+        "start": 332,
+        "end": 338
+      }
+    },
+    {
+      "category": "team",
+      "name": "España",
+      "range": {
+        "start": 339,
+        "end": 354
+      }
+    },
+    {
+      "category": "team",
+      "name": "Uruguay",
+      "range": {
+        "start": 355,
+        "end": 370
+      }
+    },
+    {
+      "category": "team",
+      "name": "Cabo Verde",
+      "range": {
+        "start": 371,
+        "end": 377
+      }
+    },
+    {
+      "category": "team",
+      "name": "Arabia Saudita",
+      "range": {
+        "start": 378,
+        "end": 384
+      }
+    },
+    {
+      "category": "team",
+      "name": "Francia",
+      "range": {
+        "start": 385,
+        "end": 400
+      }
+    },
+    {
+      "category": "team",
+      "name": "Noruega",
+      "range": {
+        "start": 401,
+        "end": 416
+      }
+    },
+    {
+      "category": "team",
+      "name": "Senegal",
+      "range": {
+        "start": 417,
+        "end": 423
+      }
+    },
+    {
+      "category": "team",
+      "name": "Egipto",
+      "range": {
+        "start": 424,
+        "end": 430
+      }
+    },
+    {
+      "category": "team",
+      "name": "Argentina",
+      "range": {
+        "start": 431,
+        "end": 446
+      }
+    },
+    {
+      "category": "team",
+      "name": "Austria",
+      "range": {
+        "start": 447,
+        "end": 453
+      }
+    },
+    {
+      "category": "team",
+      "name": "Jordania",
+      "range": {
+        "start": 454,
+        "end": 460
+      }
+    },
+    {
+      "category": "team",
+      "name": "Argelia",
+      "range": {
+        "start": 461,
+        "end": 476
+      }
+    },
+    {
+      "category": "team",
+      "name": "Portugal",
+      "range": {
+        "start": 477,
+        "end": 492
+      }
+    },
+    {
+      "category": "team",
+      "name": "Colombia",
+      "range": {
+        "start": 493,
+        "end": 508
+      }
+    },
+    {
+      "category": "team",
+      "name": "Uzbekistán",
+      "range": {
+        "start": 509,
+        "end": 515
+      }
+    },
+    {
+      "category": "team",
+      "name": "R.D. Congo",
+      "range": {
+        "start": 516,
+        "end": 522
+      }
+    },
+    {
+      "category": "team",
+      "name": "Inglaterra",
+      "range": {
+        "start": 523,
+        "end": 538
+      }
+    },
+    {
+      "category": "team",
+      "name": "Croacia",
+      "range": {
+        "start": 539,
+        "end": 554
+      }
+    },
+    {
+      "category": "team",
+      "name": "Ghana",
+      "range": {
+        "start": 555,
+        "end": 561
+      }
+    },
+    {
+      "category": "team",
+      "name": "Panamá",
+      "range": {
+        "start": 562,
+        "end": 568
+      }
+    },
+    {
+      "category": "special",
+      "name": "Campeones",
+      "range": {
+        "start": 569,
+        "end": 580
+      }
+    },
+    {
+      "category": "special",
+      "name": "Selecciones",
+      "range": {
+        "start": "T1",
+        "end": "T48"
+      }
+    },
+    {
+      "category": "special",
+      "name": "Primera vez",
+      "range": {
+        "start": 581,
+        "end": 584
+      }
+    }
+  ]
+}
