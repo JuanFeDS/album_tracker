@@ -1,6 +1,8 @@
 import { useEffect, useState, useMemo, type ReactNode } from 'react'
-import { Link }                          from 'react-router-dom'
+import { Link, useParams }               from 'react-router-dom'
 import { useCollection }                 from '../hooks/useCollection'
+import { useCollectionStore }            from '../stores/collectionStore'
+import { DEFAULT_ALBUM_ID, ALBUMS }      from '@/lib/constants'
 import { StickerCard }                   from '../components/stickers/StickerCard'
 import { PageScanner }                   from '../components/collection/PageScanner'
 import { Spinner }                       from '../components/ui/Spinner'
@@ -137,11 +139,17 @@ function StickerGrid({ stickers, onAdd, onRemove }: {
 // ── Page ──────────────────────────────────────────────────────
 
 export default function CollectionPage() {
-  const { collection, isLoading, load, addSticker, removeSticker, syncFromScan } = useCollection()
+  const { albumId = DEFAULT_ALBUM_ID }  = useParams<{ albumId: string }>()
+  const albumConfig                     = ALBUMS.find(a => a.id === albumId) ?? ALBUMS[0]
+  const reset                           = useCollectionStore(s => s.reset)
+  const { collection, isLoading, load, addSticker, removeSticker, syncFromScan } = useCollection(albumId)
   const [selection, setSelection]     = useState<Selection | null>(null)
   const [showScanner, setShowScanner] = useState(false)
 
-  useEffect(() => { load() }, [load])
+  useEffect(() => {
+    reset()
+    load()
+  }, [albumId]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const bySection = useMemo(() => {
     if (!collection) return { intro: [], museum: [], teams: new Map<string, StickerDTO[]>() }
@@ -247,7 +255,7 @@ export default function CollectionPage() {
             </Link>
             <div className="flex-1">
               <h1 className="font-bold text-white text-lg leading-none">Mi Colección</h1>
-              <p className="text-xs text-[#4a6580] mt-0.5">FIFA World Cup 2026™</p>
+              <p className="text-xs text-[#4a6580] mt-0.5">{albumConfig.name}</p>
             </div>
             <div className="text-right">
               <p className="text-xl font-bold text-white">{globalPct}%</p>
