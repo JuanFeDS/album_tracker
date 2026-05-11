@@ -2,7 +2,7 @@ import { useAuthStore }  from '../stores/authStore'
 import { supabase }      from '@infrastructure/supabase/client'
 
 export function useAuth() {
-  const { userId, username, setUser, clear } = useAuthStore()
+  const { userId, username, albumIds, setUser, setAlbums, clear } = useAuthStore()
 
   const enter = async (input: string) => {
     const { data } = await supabase
@@ -35,9 +35,11 @@ export function useAuth() {
   return {
     userId,
     username,
+    albumIds,
     isAuthenticated: !!userId,
     enter,
     create,
+    setAlbums,
     logout,
   }
 }
