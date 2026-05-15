@@ -7,19 +7,26 @@ interface Props {
 }
 
 export function StickerCard({ sticker, onAdd, onRemove }: Props) {
-  const { id, code, playerName, rarity, quantity, isMissing, isDuplicate } = sticker
+  const { id, code, playerName, playerImageUrl, rarity, quantity, isMissing, isDuplicate } = sticker
   const isFoil = rarity === 'foil'
 
   if (isMissing) {
     return (
       <div
         onClick={() => onAdd(id)}
-        className="relative flex aspect-[2/3] cursor-pointer flex-col items-center justify-center gap-0.5 rounded-lg border border-dashed border-[#1a3050] bg-[#0a1525] px-1 py-2 select-none transition-colors active:bg-[#0f1e35]"
+        className="relative flex aspect-[2/3] cursor-pointer flex-col items-center justify-center gap-0.5 rounded-lg border border-dashed border-[#1a3050] bg-[#0a1525] px-1 py-2 select-none transition-colors active:bg-[#0f1e35] overflow-hidden"
         title={`${code}${playerName ? ` — ${playerName}` : ''}`}
       >
-        <span className="text-[11px] font-bold tracking-wide text-[#2a4f72]">{code}</span>
+        {playerImageUrl && (
+          <img
+            src={playerImageUrl}
+            alt={playerName ?? code}
+            className="absolute inset-0 h-full w-full object-cover grayscale opacity-20"
+          />
+        )}
+        <span className="relative z-10 text-[11px] font-bold tracking-wide text-[#2a4f72]">{code}</span>
         {playerName && (
-          <span className="w-full truncate text-center text-[9px] text-[#3a6a9a] leading-tight">
+          <span className="relative z-10 w-full truncate text-center text-[9px] text-[#3a6a9a] leading-tight">
             {playerName}
           </span>
         )}
@@ -45,16 +52,31 @@ export function StickerCard({ sticker, onAdd, onRemove }: Props) {
       <div className={`h-1 w-full flex-none ${isDuplicate ? 'bg-[#f5a623]' : 'bg-[#1e90ff]'}`} />
 
       {/* Content */}
-      <div className="flex flex-1 flex-col items-center justify-center gap-0.5 px-1 py-1.5">
-        <span className={`text-[11px] font-bold tracking-wide ${isDuplicate ? 'text-[#f5a623]' : 'text-white'}`}>
-          {code}
-        </span>
-        {playerName && (
-          <span className="w-full truncate text-center text-[9px] leading-tight text-white/60">
-            {playerName}
+      {playerImageUrl ? (
+        <>
+          <img
+            src={playerImageUrl}
+            alt={playerName ?? code}
+            className="min-h-0 flex-1 w-full object-cover"
+          />
+          <div className="flex-none px-1 py-0.5 text-center">
+            <span className={`text-[10px] font-bold tracking-wide ${isDuplicate ? 'text-[#f5a623]' : 'text-white'}`}>
+              {code}
+            </span>
+          </div>
+        </>
+      ) : (
+        <div className="flex flex-1 flex-col items-center justify-center gap-0.5 px-1 py-1.5">
+          <span className={`text-[11px] font-bold tracking-wide ${isDuplicate ? 'text-[#f5a623]' : 'text-white'}`}>
+            {code}
           </span>
-        )}
-      </div>
+          {playerName && (
+            <span className="w-full truncate text-center text-[9px] leading-tight text-white/60">
+              {playerName}
+            </span>
+          )}
+        </div>
+      )}
 
       {/* Quantity badge */}
       {quantity > 1 && (
