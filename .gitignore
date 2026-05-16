@@ -25,3 +25,13 @@ Thumbs.db
 
 # TypeScript
 *.tsbuildinfo
+
+# Session summaries & local notes
+*-session.md
+image.png
+
+# Claude Code
+.claude/
+
+# Supabase temp
+supabase/.temp/
